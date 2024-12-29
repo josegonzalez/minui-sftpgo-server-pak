@@ -5,12 +5,12 @@ clean:
 	rm -rf bin/sftpgo bin/templates bin/static bin/sftpgo.json bin/LICENSE || true
 
 build:
-	test -d sftpgo || git clone https://github.com/drakkan/sftpgo
-	cd sftpgo && git checkout "tags/${TAG}"
-	cd sftpgo && GOOS=linux GOARCH=arm64 go build -tags nogcs,nos3,nosqlite -ldflags "-s -w -X github.com/drakkan/sftpgo/v2/internal/version.commit=${TAG} -X github.com/drakkan/sftpgo/v2/internal/version.date=${BUILD_DATE}" -o sftpgo
+	docker build -t app/sftpgo:$(TAG) --progress plain --build-arg BUILD_DATE=$(BUILD_DATE) .
+	docker container create --name extract app/sftpgo:$(TAG)
+	docker container cp extract:/go/src/github.com/drakkan/sftpgo/sftpgo bin/sftpgo
+	chmod +x bin/sftpgo
 
-	rm -rf bin/sftpgo bin/templates bin/static bin/sftpgo.json
-	cp sftpgo/sftpgo bin/sftpgo
+	rm -rf bin/templates bin/static bin/sftpgo.json
 	cp -r sftpgo/templates bin/templates
 	cp -r sftpgo/static bin/static
 	cp sftpgo/sftpgo.json bin/sftpgo.json

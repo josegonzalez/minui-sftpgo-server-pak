@@ -9,8 +9,9 @@ RES_PATH="$progdir/res"
 
 sftpgo_on() {
     cd /mnt/SDCARD/ || exit
-    rm "$progdir/sftpgo.logs" || true
-    (nice -2 "$progdir/bin/sftpgo" serve -c /mnt/SDCARD/ > "$progdir/sftpgo.logs" &) &
+    rm -f "$progdir/sftpgo.logs" 2>/dev/null || true
+    chmod +x "$progdir/bin/sftpgo"
+    (nice -2 "$progdir/bin/sftpgo" serve -c "$progdir/bin" > "$progdir/sftpgo.logs" &) &
     wait_for_sftpgo 10
 }
 

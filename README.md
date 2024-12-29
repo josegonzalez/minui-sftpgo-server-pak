@@ -4,7 +4,7 @@ A TrimUI Brick app wrapping [`sftpgo`](https://github.com/drakkan/sftpgo), an ht
 
 ## Requirements
 
-- Golang (for building)
+- Docker (running on ARM64)
 
 ## Building
 
