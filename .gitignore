@@ -1,0 +1,3 @@
+sftpgo
+bin/*
+!bin/.gitkeep
