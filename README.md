@@ -1,4 +1,4 @@
-# trimui-brick-toggle-sftpgo-server.pak
+# trimui-brick-sftpgo-server.pak
 
 A TrimUI Brick app wrapping [`sftpgo`](https://github.com/drakkan/sftpgo), an http file server.
 
@@ -15,7 +15,7 @@ make build
 ## Installation
 
 > [!IMPORTANT]
-> The sftpgo binary **must** first be built for the TrimUI Brick. See the "Building" section for more details.
+> The `sftpgo` binary **must** first be built for the TrimUI Brick. See the "Building" section for more details.
 
 1. Mount your TrimUI Brick SD card.
 2. Create a folder in your SD card with the full-path of `/Tools/tg3040/Toggle SFTPGo Server.pak`.
@@ -24,4 +24,6 @@ make build
 
 ## Usage
 
-This pak will start/stop the `sftpgo` server, which will run until either it is toggled off or the device is terminated.
+### daemon-mode
+
+By default, `sftpgo` runs as a foreground process, terminating on app exit. To run `sftpgo` in daemon mode, create a file named `daemon-mode` in the pak folder. This will turn the app into a toggle for `sftpgo`.
