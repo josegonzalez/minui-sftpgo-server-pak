@@ -4,7 +4,7 @@ BUILD_DATE := "$(shell date -u +%FT%TZ)"
 clean:
 	rm -rf bin/sftpgo bin/templates bin/static bin/sftpgo.json bin/LICENSE || true
 
-build:
+build: bin/evtest
 	docker build -t app/sftpgo:$(TAG) --progress plain --build-arg BUILD_DATE=$(BUILD_DATE) .
 	docker container create --name extract app/sftpgo:$(TAG)
 	docker container cp extract:/go/src/github.com/drakkan/sftpgo/sftpgo bin/sftpgo
@@ -29,3 +29,10 @@ build:
 	jq --arg value "TrimUI Brick" '.httpd.bindings[0].branding.web_client.name = $$value' bin/sftpgo.json > bin/sftpgo.json.tmp && mv bin/sftpgo.json.tmp bin/sftpgo.json
 
 	jq --arg value "TrimUI Brick" '.httpd.bindings[0].branding.web_client.short_name = $$value' bin/sftpgo.json > bin/sftpgo.json.tmp && mv bin/sftpgo.json.tmp bin/sftpgo.json
+
+bin/evtest:
+	docker build --build-arg BUILD_DATE=$(BUILD_DATE) -f Dockerfile.evtest --progress plain -t app/evtest:$(TAG) .
+	docker container create --name extract app/evtest:$(TAG)
+	docker container cp extract:/go/src/github.com/freedesktop/evtest/evtest bin/evtest
+	docker container rm extract
+	chmod +x bin/evtest
