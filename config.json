@@ -1,0 +1,5 @@
+{
+    "label": "FTP Server",
+    "launch": "launch.sh",
+    "description": "Manages the FTP Server"
+}

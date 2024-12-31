@@ -15,20 +15,20 @@ service_on() {
         mv "$progdir/log/service.log" "$progdir/log/service.log.old"
     fi
 
-    chmod +x "$progdir/bin/sftpgo"
+    chmod +x "$progdir/bin/sftpgo/sftpgo"
     # check if sftpgo has an admin user
-    if [ ! -f "$progdir/bin/sftpgo.db" ]; then
+    if [ ! -f "$progdir/bin/sftpgo/sftpgo.db" ]; then
         echo "Creating admin user..."
         export SFTPGO_DEFAULT_ADMIN_USERNAME="trimui"
         export SFTPGO_DEFAULT_ADMIN_PASSWORD="password"
         export SFTPGO_DATA_PROVIDER__USERNAME="trimui"
         export SFTPGO_DATA_PROVIDER__PASSWORD="password"
-        sed -i '/create_default_admin/s/false/true/g' "$progdir/bin/sftpgo.json"
+        sed -i '/create_default_admin/s/false/true/g' "$progdir/bin/sftpgo/sftpgo.json"
     else
-        sed -i '/create_default_admin/s/true/false/g' "$progdir/bin/sftpgo.json"
+        sed -i '/create_default_admin/s/true/false/g' "$progdir/bin/sftpgo/sftpgo.json"
     fi
 
-    ("$progdir/bin/sftpgo" serve -c "$progdir/bin" >"$progdir/log/service.log" &) &
+    ("$progdir/bin/sftpgo/sftpgo" serve -c "$progdir/bin" >"$progdir/log/service.log" &) &
 }
 
 service_off() {
