@@ -40,7 +40,7 @@ bin/sftpgo: sftpgo
 	jq --arg value "TrimUI Brick" '.httpd.bindings[0].branding.web_client.short_name = $$value' bin/sftpgo/sftpgo.json > bin/sftpgo/sftpgo.json.tmp && mv bin/sftpgo/sftpgo.json.tmp bin/sftpgo/sftpgo.json
 
 bin/evtest:
-	docker buildx build --platform linux/arm64 --load --build-arg BUILD_DATE=$(BUILD_DATE) -f Dockerfile.evtest --progress plain -t app/evtest:$(TAG) .
+	docker buildx build --platform linux/arm64 --load -f Dockerfile.evtest --progress plain -t app/evtest:$(TAG) .
 	docker container create --name extract app/evtest:$(TAG)
 	docker container cp extract:/go/src/github.com/freedesktop/evtest/evtest bin/evtest
 	docker container rm extract
