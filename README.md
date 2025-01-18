@@ -1,6 +1,6 @@
 # trimui-brick-sftpgo-server.pak
 
-A TrimUI Brick app wrapping [`sftpgo`](https://github.com/drakkan/sftpgo), an http file server.
+A TrimUI Brick app wrapping [`sftpgo`](https://github.com/drakkan/sftpgo), an sftp server.
 
 ## Requirements
 
