@@ -17,19 +17,36 @@ service_on() {
     fi
 
     chmod +x "$progdir/bin/sftpgo/sftpgo"
-    # check if sftpgo has an admin user
-    if [ ! -f "$progdir/bin/sftpgo/sftpgo.db" ]; then
-        echo "Creating admin user..."
-        export SFTPGO_DEFAULT_ADMIN_USERNAME="trimui"
-        export SFTPGO_DEFAULT_ADMIN_PASSWORD="password"
-        export SFTPGO_DATA_PROVIDER__USERNAME="trimui"
-        export SFTPGO_DATA_PROVIDER__PASSWORD="password"
-        sed -i '/create_default_admin/s/false/true/g' "$progdir/bin/sftpgo/sftpgo.json"
-    else
-        sed -i '/create_default_admin/s/true/false/g' "$progdir/bin/sftpgo/sftpgo.json"
+    if [ -f "$progdir/log/process.log" ]; then
+        mv "$progdir/log/process.log" "$progdir/log/process.log.old"
     fi
 
-    ("$progdir/bin/sftpgo/sftpgo" serve -c "$progdir/bin" >"$progdir/log/service.log" &) &
+    ftp_port=21
+    if [ -f "$progdir/ftp-port" ]; then
+        ftp_port=$(cat "$progdir/ftp-port")
+    fi
+
+    http_port=8888
+    if [ -f "$progdir/http-port" ]; then
+        http_port=$(cat "$progdir/http-port")
+    fi
+
+    password="minui"
+    if [ -f "$progdir/password" ]; then
+        password=$(cat "$progdir/password")
+    fi
+
+    ("$progdir/bin/sftpgo/sftpgo" portable \
+        --ftpd-port "$ftp_port" \
+        --httpd-port "$http_port" \
+        --username minui \
+        --password "$password" \
+        --sftp-username minui \
+        --sftp-password "$password" \
+        --directory /mnt/SDCARD \
+        --log-file-path "$progdir/log/process.log" \
+        --permissions '*' \
+        --config-dir "$progdir/bin/sftpgo" >"$progdir/log/service.log" &) &
 }
 
 service_off() {
