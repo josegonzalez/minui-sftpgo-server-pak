@@ -7,3 +7,5 @@ res/fonts/*
 !res/fonts/.gitkeep
 
 sftpgo
+!bin/service-on
+!bin/on-boot
