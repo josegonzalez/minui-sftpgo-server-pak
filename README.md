@@ -33,11 +33,17 @@ The default credentials are:
 
 - `minui:minui`
 
-### ftp-port
+### Debug Logging
+
+To enable debug logging, create a file named `debug` in the pak folder. Logs will be written to the `$SDCARD_PATH/.userdata/$PLATFORM/logs/` folder.
+
+### Configuration
+
+#### ftp-port
 
 By default, `sftpgo` runs the FTP server on port `21`. To run it on a different port, create a file named `ftp-port` in the pak folder with the desired port number as the contents of the file. This will be used on subsequent runs for the port to run the FTP server on.
 
-### http-port
+#### http-port
 
 By default, `sftpgo` runs the http ui on port `8888`. To run it on a different port, create a file named `http-port` in the pak folder with the desired port number as the contents of the file. This will be used on subsequent runs for the port to run the http ui on.
 
