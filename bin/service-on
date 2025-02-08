@@ -7,15 +7,9 @@ PAK_NAME="$(basename "$progdir")"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$progdir/lib"
 
 main() {
-    cd "$SDCARD_PATH" || exit 1
-    if [ -f "$LOGS_PATH/$PAK_NAME.service.txt" ]; then
-        mv "$LOGS_PATH/$PAK_NAME.service.txt" "$LOGS_PATH/$PAK_NAME.service.txt.old"
-    fi
+    cd "$SDCARD_PATH" || return 1
 
     chmod +x "$bindir/sftpgo/sftpgo"
-    if [ -f "$LOGS_PATH/$PAK_NAME.process.log" ]; then
-        mv "$LOGS_PATH/$PAK_NAME.process.log" "$LOGS_PATH/$PAK_NAME.process.log.old"
-    fi
 
     ftp_port=21
     if [ -f "$progdir/ftp-port" ]; then
@@ -40,7 +34,7 @@ main() {
         --sftp-username minui \
         --sftp-password "$password" \
         --directory "$SDCARD_PATH" \
-        --log-file-path "$LOGS_PATH/$PAK_NAME.process.log" \
+        --log-file-path "$LOGS_PATH/$PAK_NAME.process.txt" \
         --permissions '*' \
         --config-dir "$bindir/sftpgo" >"$LOGS_PATH/$PAK_NAME.service.txt" &) &
 }
