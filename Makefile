@@ -3,13 +3,12 @@ BUILD_DATE := "$(shell date -u +%FT%TZ)"
 PAK_NAME := $(shell jq -r .label config.json)
 
 clean:
-	rm -rf bin/evtest || true
 	rm -rf bin/sftpgo || true
 	rm -rf sftpgo || true
 	rm -f bin/sdl2imgshow || true
 	rm -f res/fonts/BPreplayBold.otf || true
 
-build: bin/evtest bin/sftpgo bin/sdl2imgshow res/fonts/BPreplayBold.otf
+build: bin/sftpgo bin/sdl2imgshow res/fonts/BPreplayBold.otf
 
 sftpgo:
 	git clone https://github.com/drakkan/sftpgo
@@ -41,13 +40,6 @@ bin/sftpgo: sftpgo
 	jq --arg value "TrimUI Brick" '.httpd.bindings[0].branding.web_client.name = $$value' bin/sftpgo/sftpgo.json > bin/sftpgo/sftpgo.json.tmp && mv bin/sftpgo/sftpgo.json.tmp bin/sftpgo/sftpgo.json
 
 	jq --arg value "TrimUI Brick" '.httpd.bindings[0].branding.web_client.short_name = $$value' bin/sftpgo/sftpgo.json > bin/sftpgo/sftpgo.json.tmp && mv bin/sftpgo/sftpgo.json.tmp bin/sftpgo/sftpgo.json
-
-bin/evtest:
-	docker buildx build --platform linux/arm64 --load -f Dockerfile.evtest --progress plain -t app/evtest:$(TAG) .
-	docker container create --name extract app/evtest:$(TAG)
-	docker container cp extract:/go/src/github.com/freedesktop/evtest/evtest bin/evtest
-	docker container rm extract
-	chmod +x bin/evtest
 
 bin/sdl2imgshow:
 	docker buildx build --platform linux/arm64 --load -f Dockerfile.sdl2imgshow --progress plain -t app/sdl2imgshow:$(TAG) .
