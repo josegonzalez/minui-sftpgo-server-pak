@@ -1,5 +1,9 @@
 {
     "label": "FTP Server",
     "launch": "launch.sh",
-    "description": "Manages the FTP Server"
+    "description": "Manages the FTP Server",
+    "platforms": [
+        "rg35xxplus",
+        "tg5040"
+    ]
 }
