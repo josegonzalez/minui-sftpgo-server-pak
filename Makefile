@@ -28,7 +28,7 @@ bin/arm64/jq:
 
 bin/arm64/sftpgo: sftpgo
 	mkdir -p bin/arm64/sftpgo
-	curl -sSL https://github.com/drakkan/sftpgo/releases/download/$(SFTPGO_VERSION)/sftpgo_$(SFTPGO_VERSION)_linux_arm64.tar.xz | tar -x -C bin/arm64/sftpgo
+	curl -sSL https://github.com/drakkan/sftpgo/releases/download/$(SFTPGO_VERSION)/sftpgo_$(SFTPGO_VERSION)_linux_arm64.tar.xz | tar -Jx -C bin/arm64/sftpgo
 	chmod +x bin/arm64/sftpgo/sftpgo
 
 	cp -r sftpgo/templates bin/arm64/sftpgo/templates
