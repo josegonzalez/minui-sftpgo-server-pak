@@ -2,6 +2,4 @@
 .gitattributes export-ignore
 .gitarchiveinclude export-ignore
 .gitignore export-ignore
-Dockerfile.sftpgo export-ignore
-Dockerfile.sdl2imgshow export-ignore
 Makefile export-ignore

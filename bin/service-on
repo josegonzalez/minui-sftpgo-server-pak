@@ -1,32 +1,41 @@
 #!/bin/sh
-bindir="$(dirname "$0")"
-progdir="$(dirname "$bindir")"
-cd "$progdir" || exit 1
-[ -f "$USERDATA_PATH/SFTPServer/debug" ] && set -x
-PAK_NAME="$(basename "$progdir")"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$progdir/lib"
+BIN_DIR="$(dirname "$0")"
+PAK_DIR="$(dirname "$BIN_DIR")"
+PAK_NAME="$(basename "$PAK_DIR")"
+PAK_NAME="${PAK_NAME%.*}"
+[ -f "$USERDATA_PATH/$PAK_NAME/debug" ] && set -x
+
+echo "$0" "$@"
+cd "$PAK_DIR" || exit 1
+
+architecture=arm
+if uname -m | grep -q '64'; then
+    architecture=arm64
+fi
+
+export PATH="$PAK_DIR/bin/$architecture:$PAK_DIR/bin/$PLATFORM:$PAK_DIR/bin:$PATH"
 
 main() {
     cd "$SDCARD_PATH" || return 1
 
-    chmod +x "$bindir/sftpgo/sftpgo"
+    chmod +x "$BIN_DIR/$architecture/sftpgo/sftpgo"
 
     ftp_port=21
-    if [ -f "$progdir/ftp-port" ]; then
-        ftp_port=$(cat "$progdir/ftp-port")
+    if [ -f "$USERDATA_PATH/$PAK_NAME/ftp-port" ]; then
+        ftp_port=$(cat "$USERDATA_PATH/$PAK_NAME/ftp-port")
     fi
 
     http_port=8888
-    if [ -f "$progdir/http-port" ]; then
-        http_port=$(cat "$progdir/http-port")
+    if [ -f "$USERDATA_PATH/$PAK_NAME/http-port" ]; then
+        http_port=$(cat "$USERDATA_PATH/$PAK_NAME/http-port")
     fi
 
     password="minui"
-    if [ -f "$progdir/password" ]; then
-        password=$(cat "$progdir/password")
+    if [ -f "$USERDATA_PATH/$PAK_NAME/password" ]; then
+        password=$(cat "$USERDATA_PATH/$PAK_NAME/password")
     fi
 
-    ("$bindir/sftpgo/sftpgo" portable \
+    ("$BIN_DIR/$architecture/sftpgo/sftpgo" portable \
         --ftpd-port "$ftp_port" \
         --httpd-port "$http_port" \
         --username minui \
@@ -36,7 +45,7 @@ main() {
         --directory "$SDCARD_PATH" \
         --log-file-path "$LOGS_PATH/$PAK_NAME.process.txt" \
         --permissions '*' \
-        --config-dir "$bindir/sftpgo" >"$LOGS_PATH/$PAK_NAME.service.txt" &) &
+        --config-dir "$BIN_DIR/$architecture/sftpgo" >"$LOGS_PATH/$PAK_NAME.service.txt" &) &
 }
 
 main "$@"
