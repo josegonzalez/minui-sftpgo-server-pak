@@ -1,14 +1,14 @@
 {
-    "name": "FTP Server",
-    "type": "TOOL",
-    "description": "Manages the FTP Server",
-    "author": "josegonzalez",
-    "repo_url": "https://github.com/josegonzalez/minui-sftpgo-server-pak",
-    "release_filename": "SFTP.Go.Server.pak.zip",
-    "platforms": [
-        "rg35xxplus",
-        "tg5040"
-    ],
-    "launch": "launch.sh",
-    "version": "latest"
+  "name": "FTP Server",
+  "type": "TOOL",
+  "description": "Manages the FTP Server",
+  "author": "josegonzalez",
+  "repo_url": "https://github.com/josegonzalez/minui-sftpgo-server-pak",
+  "release_filename": "SFTP.Go.Server.pak.zip",
+  "platforms": [
+    "rg35xxplus",
+    "tg5040"
+  ],
+  "launch": "launch.sh",
+  "version": "0.4.3"
 }
