@@ -4,7 +4,7 @@
   "description": "Manages the FTP Server",
   "author": "josegonzalez",
   "repo_url": "https://github.com/josegonzalez/minui-sftpgo-server-pak",
-  "release_filename": "SFTP.Go.Server.pak.zip",
+  "release_filename": "FTP.Server.pak.zip",
   "platforms": [
     "rg35xxplus",
     "tg5040"
