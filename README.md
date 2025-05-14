@@ -39,7 +39,7 @@ Debug logs are written to the`$SDCARD_PATH/.userdata/$PLATFORM/logs/` folder.
 
 ### Configuration
 
-Your userdata folder with the configuration files is located at `$SDCARD_PATH/.userdata/$PLATFORM/FTP Server.pak/`.
+Your userdata folder with the configuration files is located at `$SDCARD_PATH/.userdata/$PLATFORM/FTP Server/`.
 
 #### ftp-port
 
