@@ -39,14 +39,16 @@ Debug logs are written to the`$SDCARD_PATH/.userdata/$PLATFORM/logs/` folder.
 
 ### Configuration
 
+Your userdata folder with the configuration files is located at `$SDCARD_PATH/.userdata/$PLATFORM/FTP Server.pak/`.
+
 #### ftp-port
 
-By default, `sftpgo` runs the FTP server on port `21`. To run it on a different port, create a file named `ftp-port` in the pak folder with the desired port number as the contents of the file. This will be used on subsequent runs for the port to run the FTP server on.
+By default, `sftpgo` runs the FTP server on port `21`. To run it on a different port, create a file named `ftp-port` in the userdata folder with the desired port number as the contents of the file. This will be used on subsequent runs for the port to run the FTP server on.
 
 #### http-port
 
-By default, `sftpgo` runs the http ui on port `8888`. To run it on a different port, create a file named `http-port` in the pak folder with the desired port number as the contents of the file. This will be used on subsequent runs for the port to run the http ui on.
+By default, `sftpgo` runs the http ui on port `8888`. To run it on a different port, create a file named `http-port` in the userdata folder with the desired port number as the contents of the file. This will be used on subsequent runs for the port to run the http ui on.
 
 ### password
 
-Creating a file named `password` will result in the contents of that file being used as the password for the `minui` user. If not specified, the password is set to `minui`.
+Creating a file named `password` in the userdata folder will result in the contents of that file being used as the password for the `minui` user. If not specified, the password is set to `minui`.
