@@ -5,8 +5,8 @@ PAK_FOLDER := $(shell echo $(PAK_TYPE) | cut -c1)$(shell echo $(PAK_TYPE) | tr '
 PUSH_SDCARD_PATH ?= /mnt/SDCARD
 PUSH_PLATFORM ?= tg5040
 
-ARCHITECTURES := arm64
-PLATFORMS := rg35xxplus tg5040
+ARCHITECTURES := arm arm64
+PLATFORMS := miyoomini my282 my355 rg35xxplus tg5040
 
 JQ_VERSION ?= 1.7.1
 MINUI_LIST_VERSION := 0.11.4
@@ -26,10 +26,39 @@ sftpgo:
 	git clone https://github.com/drakkan/sftpgo
 	cd sftpgo && git checkout "tags/${SFTPGO_VERSION}"
 
+bin/arm/jq:
+	mkdir -p bin/arm
+	curl -f -o bin/arm/jq -sSL https://github.com/jqlang/jq/releases/download/jq-$(JQ_VERSION)/jq-linux-armhf
+	curl -sSL -o bin/arm/jq.LICENSE "https://raw.githubusercontent.com/jqlang/jq/refs/heads/$(JQ_VERSION)/COPYING"
+
 bin/arm64/jq:
 	mkdir -p bin/arm64
 	curl -f -o bin/arm64/jq -sSL https://github.com/jqlang/jq/releases/download/jq-$(JQ_VERSION)/jq-linux-arm64
 	curl -sSL -o bin/arm64/jq.LICENSE "https://raw.githubusercontent.com/jqlang/jq/refs/heads/$(JQ_VERSION)/COPYING"
+
+bin/arm/sftpgo: sftpgo
+	mkdir -p bin/arm/sftpgo
+	curl -sSL https://github.com/drakkan/sftpgo/releases/download/$(SFTPGO_VERSION)/sftpgo_$(SFTPGO_VERSION)_linux_armv7.tar.xz | tar -Jx -C bin/arm/sftpgo
+	chmod +x bin/arm/sftpgo/sftpgo
+
+	cp -r sftpgo/templates bin/arm/sftpgo/templates
+	cp -r sftpgo/static bin/arm/sftpgo/static
+	cp sftpgo/sftpgo.json bin/arm/sftpgo/sftpgo.json
+	cp sftpgo/LICENSE bin/arm/sftpgo/LICENSE
+
+	jq --arg value "0" '.sftpd.bindings[0].port = ($$value|tonumber)' bin/arm/sftpgo/sftpgo.json > bin/arm/sftpgo/sftpgo.json.tmp && mv bin/arm/sftpgo/sftpgo.json.tmp bin/arm/sftpgo/sftpgo.json
+
+	jq --arg value "21" '.ftpd.bindings[0].port = ($$value|tonumber)' bin/arm/sftpgo/sftpgo.json > bin/arm/sftpgo/sftpgo.json.tmp && mv bin/arm/sftpgo/sftpgo.json.tmp bin/arm/sftpgo/sftpgo.json
+
+	jq --arg value "false" '.httpd.bindings[0].enable_web_admin = ($$value|test("true"))' bin/arm/sftpgo/sftpgo.json > bin/arm/sftpgo/sftpgo.json.tmp && mv bin/arm/sftpgo/sftpgo.json.tmp bin/arm/sftpgo/sftpgo.json
+
+	jq --arg value "TrimUI Brick" '.httpd.bindings[0].branding.web_admin.name = $$value' bin/arm/sftpgo/sftpgo.json > bin/arm/sftpgo/sftpgo.json.tmp && mv bin/arm/sftpgo/sftpgo.json.tmp bin/arm/sftpgo/sftpgo.json
+
+	jq --arg value "TrimUI Brick" '.httpd.bindings[0].branding.web_admin.short_name = $$value' bin/arm/sftpgo/sftpgo.json > bin/arm/sftpgo/sftpgo.json.tmp && mv bin/arm/sftpgo/sftpgo.json.tmp bin/arm/sftpgo/sftpgo.json
+
+	jq --arg value "TrimUI Brick" '.httpd.bindings[0].branding.web_client.name = $$value' bin/arm/sftpgo/sftpgo.json > bin/arm/sftpgo/sftpgo.json.tmp && mv bin/arm/sftpgo/sftpgo.json.tmp bin/arm/sftpgo/sftpgo.json
+
+	jq --arg value "TrimUI Brick" '.httpd.bindings[0].branding.web_client.short_name = $$value' bin/arm/sftpgo/sftpgo.json > bin/arm/sftpgo/sftpgo.json.tmp && mv bin/arm/sftpgo/sftpgo.json.tmp bin/arm/sftpgo/sftpgo.json
 
 bin/arm64/sftpgo: sftpgo
 	mkdir -p bin/arm64/sftpgo
