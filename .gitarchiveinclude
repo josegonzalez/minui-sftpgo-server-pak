@@ -1,3 +1,6 @@
+bin/arm/jq
+bin/arm/jq.LICENSE
+bin/arm/sftpgo
 bin/arm64/jq
 bin/arm64/jq.LICENSE
 bin/arm64/sftpgo
